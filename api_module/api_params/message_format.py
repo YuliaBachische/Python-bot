@@ -6,6 +6,13 @@ from load_bot import bot
 
 
 def format_hotel_text(hotels: List[dict], user_id: int, days: int) -> None:
+    """
+    Отформатированный вывод отелей пользователю.
+    :param hotels: список отелей
+    :param user_id: id пользователя
+    :param days: количество дней пребывания в отеле
+    :return: None
+    """
     formatted_text = ""
 
     for num, hotel in enumerate(hotels, start=1):
@@ -29,6 +36,12 @@ def format_hotel_text(hotels: List[dict], user_id: int, days: int) -> None:
 
 def hotels_searches_output(hotels_searches: List[History],
                            user_id: int) -> None:
+    """
+    Поиск запросов в истории поиска отелей.
+    :param hotels_searches: список с поисками отелей
+    :param user_id: id пользователя
+    :return: None
+    """
 
     for index, search in enumerate(hotels_searches):
         command_text = f'<b>Команда:</b> {search.command}'

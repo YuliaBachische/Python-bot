@@ -6,6 +6,11 @@ import settings
 
 
 def city_location(city: str) -> Optional[Dict[str, str]]:
+    """
+    Поиск города в апи
+    :param city: название города
+    :return: список городов
+    """
     url = f'https://{settings.site_api}/locations/v3/search'
 
     querystring: dict = {

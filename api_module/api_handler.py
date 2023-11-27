@@ -5,6 +5,14 @@ from loguru import logger
 
 
 def make_request(method: str, url: str, headers: Dict[str, str], **kwargs) -> Optional[str]:
+    """
+    Выполнение запроса к апи
+    :param method: метод запроса
+    :param url: урл запроса
+    :param headers: параметры запроса
+    :param kwargs: дополнительные параметры запроса
+    :return: результат поиска
+    """
     try:
         response = requests.request(method=method, url=url, headers=headers, timeout=10, **kwargs)
         response.raise_for_status()

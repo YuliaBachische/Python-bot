@@ -7,6 +7,11 @@ from settings import site_api_key, site_api
 
 def hotel_address(hotels: List[dict]) \
         -> Optional[List[dict]]:
+    """
+    Дополнительный поиск адресов отелей.
+    :param hotels: список отелей
+    :return: список отелей
+    """
     if hotels is None:
         return None
 

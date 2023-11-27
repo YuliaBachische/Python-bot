@@ -17,6 +17,11 @@ from load_bot import bot
 
 @bot.message_handler(commands=['low', 'high', 'custom'])
 def handle_low_high_custom_command(message: Message) -> None:
+    """
+    Обработка кастомных команд /high, /low, /custom
+    :param message: команда от пользователя
+    :return: None
+    """
     user_id = message.from_user.id
     chat_id = message.chat.id
 
@@ -34,6 +39,11 @@ def handle_low_high_custom_command(message: Message) -> None:
 
 @bot.message_handler(state=SearchParamsState.city)
 def handle_input_city(message: Message) -> None:
+    """
+    Получение города для поиска в апи
+    :param message: город, указанный пользователем
+    :return: None
+    """
     cities_dict = city_location(message.text)
     user_id = message.from_user.id
     chat_id = message.chat.id
@@ -54,6 +64,12 @@ def handle_input_city(message: Message) -> None:
 
 @bot.callback_query_handler(func=None, state=SearchParamsState.get_city)
 def location(call: CallbackQuery) -> None:
+    """
+    Сохранение города для поиска в апи.
+    Получение даты заселения в отель.
+    :param call: CallbackQuery
+    :return: None
+    """
 
     user_id: int = call.from_user.id
     chat_id: int = call.message.chat.id
@@ -81,10 +97,23 @@ def location(call: CallbackQuery) -> None:
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id=1),
                             state=SearchParamsState.date_check_in)
 def get_date_in(call: CallbackQuery) -> None:
+    """
+    Вызов функции handle_date_selection с нужными параметрами
+    :param call: CallbackQuery
+    :return: None
+    """
     handle_date_selection(call, SearchParamsState.date_check_out, 2)
 
 
 def handle_date_selection(call: CallbackQuery, next_state, next_calendar_id) -> None:
+    """
+    Сохранение даты заселения в отель.
+    Получение даты выселения.
+    :param call: CallbackQuery
+    :param next_state: SearchParamsState.date_check_out
+    :param next_calendar_id: 2
+    :return: None
+    """
     user_id: int = call.from_user.id
     chat_id: int = call.message.chat.id
     message_id: int = call.message.message_id
@@ -115,6 +144,12 @@ def handle_date_selection(call: CallbackQuery, next_state, next_calendar_id) -> 
 @bot.callback_query_handler(func=DetailedTelegramCalendar.func(calendar_id=2),
                             state=SearchParamsState.date_check_out)
 def get_date_out(call: CallbackQuery) -> None:
+    """
+    Сохранение даты выселения из отеля.
+    Получение количества отелей для поиска.
+    :param call: CallbackQuery
+    :return: None
+    """
     user_id: int = call.from_user.id
     chat_id: int = call.message.chat.id
     message_id: int = call.message.message_id
@@ -143,6 +178,13 @@ def get_date_out(call: CallbackQuery) -> None:
 
 @bot.callback_query_handler(func=None, state=SearchParamsState.hotels_num)
 def get_hotels_num(call: CallbackQuery) -> None:
+    """
+    Сохранение количества отелей для поиска.
+    В случае команды /high или /low вывод результатов поиска из апи.
+    В случает команды /custom запрос минимальной цены за сутки в отеле
+    :param call: CallbackQuery
+    :return: None
+    """
     user_id: int = call.from_user.id
     chat_id: int = call.message.chat.id
     message_id: int = call.message.message_id
@@ -186,6 +228,12 @@ def get_hotels_num(call: CallbackQuery) -> None:
 
 @bot.message_handler(state=SearchParamsState.min_price)
 def get_min_price(message: Message) -> None:
+    """
+    Сохранение минимальной цены за сутки в отеле.
+    Получение максимальной цены за сутки в отеле.
+    :param message: число от пользователя
+    :return: None
+    """
 
     user_id: int = message.from_user.id
     chat_id: int = message.chat.id
@@ -204,6 +252,12 @@ def get_min_price(message: Message) -> None:
 
 @bot.message_handler(state=SearchParamsState.max_price)
 def get_max_price(message: Message) -> None:
+    """
+    Сохранения максимальной цены за сутки в отеле.
+    Вывод результатов поиска из апи.
+    :param message: число от пользователя
+    :return: None
+    """
 
     user_id: int = message.from_user.id
     chat_id: int = message.chat.id
@@ -230,6 +284,11 @@ def get_max_price(message: Message) -> None:
 
 @bot.message_handler(commands=['history'])
 def history(message: Message) -> None:
+    """
+    Вывод истории поисков отелей.
+    :param message: команда от пользователя
+    :return: None
+    """
 
     logger.info(f'Команда: {message.text}')
     user_id: int = message.from_user.id
