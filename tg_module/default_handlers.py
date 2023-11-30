@@ -18,6 +18,11 @@ def start(message: Message) -> None:
 
 @bot.message_handler(commands=['help'])
 def bot_help(message: Message) -> None:
+    """
+    Вывод всех доступных команд бота
+    :param message: команда от пользователя
+    :return: None
+    """
     logger.info(f' Отправлена команда: {message.text})')
 
     # Вывести справочную информацию

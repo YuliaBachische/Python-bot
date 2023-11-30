@@ -5,6 +5,11 @@ from settings import site_api, site_api_key
 
 
 def custom(data: dict) -> Optional[List[dict]]:
+    """
+    Поиск отелей по заданным параметрам
+    :param data: словарь с данными
+    :return: список подходящих отелей
+    """
     hotels: List[dict] = hotel_params(
         data['city_id'],
         data['date_check_in'],
@@ -18,6 +23,11 @@ def custom(data: dict) -> Optional[List[dict]]:
 
 
 def low_price(data: dict) -> Optional[List[dict]]:
+    """
+    Поиск самых дешевых отелей
+    :param data: словарь с данными
+    :return: список подходящих отелей
+    """
     return hotel_params(
         data['city_id'],
         data['date_check_in'],
@@ -27,6 +37,11 @@ def low_price(data: dict) -> Optional[List[dict]]:
 
 
 def high_price(data: dict) -> Optional[List[dict]]:
+    """
+    Поиск самых дорогих отелей
+    :param data: словарь с данными
+    :return: список подходящих отелей
+    """
     hotels: List[dict] = hotel_params(
         data['city_id'],
         data['date_check_in'],
@@ -45,6 +60,17 @@ def hotel_params(city_id: str,
                  min_price: Optional[int] = None,
                  max_price: Optional[int] = None
                  ) -> Optional[List[Dict[str, str]]]:
+    """
+    Поиск отелей по заданным параметрам
+    :param city_id: id города
+    :param date_check_in: дата заселения
+    :param date_check_out: дата выселения
+    :param hotels_num: количество отелей
+    :param sort: тип сортировки
+    :param min_price: минимальная цена за сутки
+    :param max_price: максимальная цена за сутки
+    :return: список отелей
+    """
     url = f'https://{site_api}/properties/v2/list'
     day_in, month_in, year_in = map(int, date_check_in.split('/'))
     day_out, month_out, year_out = map(int, date_check_out.split('/'))
@@ -108,6 +134,12 @@ def hotel_params(city_id: str,
 
 
 def unpack(the_dict: dict, keys: list) -> Any:
+    """
+    Распаковка вложенных словарей
+    :param the_dict: словарь с вложенными словарями
+    :param keys: ключи словаря
+    :return: значения словаря
+    """
     value = the_dict
     for key in keys:
         value = value.get(key)
